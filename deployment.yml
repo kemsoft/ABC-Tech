@@ -2,7 +2,9 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  become: false
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
   vars:
     git_url: https://github.com/kemsoft/ABC-Tech.git
     docker_user: "{{ lookup('env','DOCKER_LOGIN') }}"
