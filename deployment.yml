@@ -1,0 +1,24 @@
+- name: Build an image and push it to a private repo
+  hosts: build
+  become: true
+  vars:
+    git_url: https://github.com/kemsoft/ABC-Tech.git
+    docker_user: "{{ lookup('env','DOCKER_LOGIN') }}"
+    docker_password: "{{ lookup('env','DOCKER_PASS') }}"
+    image_name: "drwizzy/abctechnologies"
+  tasks:
+  - name: "Build - Login to remote Repository"
+    when: git_status.changed == true
+    docker_login:
+      username: "{{ docker_user }}"
+      password: "{{ docker_password }}"
+
+  - name: "Build and Docker image from Dockerfile"
+    docker_image:
+      build:
+        path: ./
+      name: "{{image_name}}"
+      tag: latest
+      push: true
+      source: build
+
