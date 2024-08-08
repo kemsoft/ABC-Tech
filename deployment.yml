@@ -5,29 +5,32 @@
   remote_user: ec2-user
   become: yes
   become_method: sudo
+  ansible_become_pass:
   vars:
     git_url: https://github.com/kemsoft/ABC-Tech.git
     docker_user: "{{ lookup('env','DOCKER_LOGIN') }}"
     docker_password: "{{ lookup('env','DOCKER_PASS') }}"
     image_name: "drwizzy/abctechnologies"
   tasks:
-  - name: "print debug"
-    debug:
-      msg: "Ansible ssh user is: {{ ansible_ssh_user }}"
+    - name: "print debug"
+      debug:
+        msg:
+          - "Ansible ssh user is: {{ ansible_ssh_user }}"
+          - "Docker username is: {{ docker_user }}"
+          - "Docker pass is: {{ docker_password }}"
 
-  - name: "Build - Login to remote Repository"
-    delegate_to: localhost
-    docker_login:
-      username: "{{ docker_user }}"
-      password: "{{ docker_password }}"
+    - name: "Build - Login to remote Repository"
+      delegate_to: localhost
+      docker_login:
+        username: "{{ docker_user }}"
+        password: "{{ docker_password }}"
 
-  - name: "Build and Docker image from Dockerfile"
-    delegate_to: localhost
-    docker_image:
-      build:
-        path: ./
-      name: "{{image_name}}"
-      tag: latest
-      push: true
-      source: build
-
+    - name: "Build and Docker image from Dockerfile"
+      delegate_to: localhost
+      docker_image:
+        build:
+          path: ./
+        name: "{{image_name}}"
+        tag: latest
+        push: true
+        source: build
