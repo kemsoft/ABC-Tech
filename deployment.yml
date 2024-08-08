@@ -8,12 +8,13 @@
     image_name: "drwizzy/abctechnologies"
   tasks:
   - name: "Build - Login to remote Repository"
-    when: git_status.changed == true
+    delegate_to: localhost
     docker_login:
       username: "{{ docker_user }}"
       password: "{{ docker_password }}"
 
   - name: "Build and Docker image from Dockerfile"
+    delegate_to: localhost
     docker_image:
       build:
         path: ./
