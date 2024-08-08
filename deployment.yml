@@ -11,6 +11,10 @@
     docker_password: "{{ lookup('env','DOCKER_PASS') }}"
     image_name: "drwizzy/abctechnologies"
   tasks:
+  - name: "print debug"
+    debug:
+      msg: "Ansible ssh user is: {{ ansible_ssh_user }}"
+
   - name: "Build - Login to remote Repository"
     delegate_to: localhost
     docker_login:
