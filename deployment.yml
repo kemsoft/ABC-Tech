@@ -2,7 +2,7 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  become: true
+  become: false
   vars:
     git_url: https://github.com/kemsoft/ABC-Tech.git
     docker_user: "{{ lookup('env','DOCKER_LOGIN') }}"
