@@ -1,0 +1,21 @@
+- name: Build an image and push it to a private repo
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  # remote_user: root
+  # become: yes
+  # become_method: sudo
+
+  tasks:
+    - name: "print debug"
+      debug:
+        msg:
+          - "Ansible ssh user is: {{ ansible_ssh_user }}"
+
+    - name: "Create EKS Deployment"
+      delegate_to: localhost
+      shell: kubectl apply -f abcdeploy.yml
+
+    - name: "Create EKS Service"
+      delegate_to: localhost
+      shell: kubectl apply -f service.yml
