@@ -7,11 +7,6 @@
   # become_method: sudo
 
   tasks:
-    - name: "print debug"
-      debug:
-        msg:
-          - "Ansible ssh user is: {{ ansible_ssh_user }}"
-
     - name: "Create EKS Deployment"
       delegate_to: localhost
       shell: kubectl apply -f abcdeploy.yml
