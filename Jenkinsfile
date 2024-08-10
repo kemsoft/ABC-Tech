@@ -15,28 +15,24 @@ pipeline {
     stages {
         stage('Code Checkout'){
             steps{
-                // Get some code from a GitHub repository
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/kemsoft/ABC-Tech.git'
             }
         }
 
         stage('Compile'){
             steps{
-                // Get some code from a GitHub repository
                 sh 'mvn compile'
             }
         }
 
         stage('Test'){
             steps{
-                // Get some code from a GitHub repository
                 sh 'mvn test'
             }
         }
 
         stage('Package WAR') {
             steps {
-                // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
@@ -80,8 +76,7 @@ pipeline {
 
         stage('Create EKS Deployment and Service') {
             steps {
-                sh 'kubectl apply -f abctechnologies-deployment.yml'
-                sh 'kubectl apply -f abctechnologies-service.yml'
+                sh 'ansible-playbook deployment-playbook.yml'
             } 
         }
     }

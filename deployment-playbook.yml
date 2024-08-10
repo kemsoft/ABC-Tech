@@ -2,9 +2,6 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  # remote_user: root
-  # become: yes
-  # become_method: sudo
 
   tasks:
     - name: "Create EKS Deployment"
